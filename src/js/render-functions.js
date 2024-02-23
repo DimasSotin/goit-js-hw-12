@@ -1,8 +1,8 @@
 import { lightbox } from '../main.js';
 
-export function createGalleryMarkup(images) {
+export function createGalleryMarkup(images, append = true) {
   const gallery = document.querySelector('.gallery');
-  gallery.innerHTML = '';
+  // gallery.innerHTML = '';
   const markup = images
     .map(
       image => `
@@ -20,6 +20,11 @@ export function createGalleryMarkup(images) {
     `
     )
     .join('');
-  gallery.innerHTML += markup; // Добавляем новую разметку к существующей
+  if (append) {
+    gallery.insertAdjacentHTML('beforeend', markup);
+  } else {
+    gallery.innerHTML = markup;
+  }
+
   lightbox.refresh();
 }

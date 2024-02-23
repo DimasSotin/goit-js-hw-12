@@ -11,8 +11,8 @@ let imagesShown = 0;
 export async function fetchImages(query, page) {
   const loader = document.querySelector('.loader');
   const loadMoreButton = document.querySelector('#load-more');
-  loader.style.display = 'block';
   loadMoreButton.style.display = 'none'; // Скрываем кнопку Load more во время загрузки
+  loader.style.display = 'block';
   try {
     const response = await axios.get(
       `https://pixabay.com/api/?key=${API_KEY}&q=${encodeURIComponent(
@@ -24,17 +24,17 @@ export async function fetchImages(query, page) {
     console.log(response.data);
     loader.style.display = 'none';
     if (response.data.hits.length === 0) {
-      if (imagesShown >= totalHits) {
-        iziToast.info({
-          title: 'Info',
-          message:
-            'We are sorry, but you have reached the end of search results.',
-        });
-      } else {
+      if (totalHits === 0) {
         iziToast.info({
           title: 'Info',
           message:
             'Sorry, there are no images matching your search query. Please try again!',
+        });
+      } else if (imagesShown >= totalHits) {
+        iziToast.info({
+          title: 'Info',
+          message:
+            'We are sorry, but you have reached the end of search results.',
         });
       }
     } else {

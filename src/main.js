@@ -11,9 +11,13 @@ let query = '';
 let page = 1;
 
 form.addEventListener('submit', event => {
+  const gallery = document.querySelector('.gallery');
+  gallery.innerHTML = '';
   query = input.value.trim();
   page = 1;
   event.preventDefault();
+  const loader = document.querySelector('.loader');
+  loader.style.display = 'block';
   if (!query) {
     iziToast.warning({
       title: 'Warning',
@@ -21,8 +25,10 @@ form.addEventListener('submit', event => {
     });
     return;
   }
-  fetchImages(query, page);
-  input.value = '';
+  setTimeout(() => {
+    fetchImages(query, page);
+    input.value = '';
+  }, 200);
 });
 
 document.querySelector('#load-more').addEventListener('click', () => {
